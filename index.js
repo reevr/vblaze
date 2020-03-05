@@ -1,8 +1,9 @@
+/**
 const Broker = require('./libs/brokers');
 const OptionsValidator = require('./libs/options-validator');
 const Helper = require('./helpers/main');
 
-/**
+
  * options  => 
  *  brokerUrl: string,
  *  cluster: number
@@ -14,7 +15,7 @@ const Helper = require('./helpers/main');
  *        workers: string
  *  ]
  *
- */
+ 
 
 module.exports.consumer = async (options) => {
     
@@ -29,3 +30,4 @@ module.exports.consumer = async (options) => {
 
 
 }
+*/
