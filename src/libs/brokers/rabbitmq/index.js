@@ -54,7 +54,6 @@ class RabbitmqConsumerGroup extends ConsumerGroup {
         console.log(message)
 
         const currentWorkId = this.enqueue(message, (err, result, workId) => {
-           
             console.log('Work ID : ', workId);
 
             if (err) {

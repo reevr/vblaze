@@ -1,11 +1,11 @@
-const BootLoaderValidator = require('./bootloader-validator');
+const WorkerHouseValidator = require('./worker-house-validator');
 const Brokers = require('./brokers');
 
-class BootLoader {
+class WorkerHouse {
 
     constructor(config) {
 
-        const validator = new BootLoaderValidator(config);
+        const validator = new WorkerHouseValidator(config);
 
         validator.validate((result) => this.config = config);
     }
@@ -35,4 +35,4 @@ class BootLoader {
     }
 }
 
-module.exports = BootLoader;
+module.exports = WorkerHouse;
