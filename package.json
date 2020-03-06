@@ -4,11 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-play": "NODE_ENV=production MAX_THREADS_SATURATION_POINT=200 node ./tests/test.js",
-    "test": "jest --coverage --verbose=true"
+    "test-play": "NODE_ENV=production MAX_THREADS_SATURATION_POINT=200 node ./tests/test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/reevr/mblaze/issues"
+  },
+  "homepage": "https://github.com/reevr/mblaze",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reevr/mblaze.git"
   },
   "keywords": [
-    "quert"
+    "mblaze","queue", "task-queue", "celery", "worker-threads", "threads", "worker-house"
   ],
   "jest": {
     "testEnvironment": "node",
@@ -16,14 +23,18 @@
       "/node_modules/"
     ]
   },
-  "author": "reev ranj",
+  "author": {
+    "email": "reev.r00@gmail.com",
+    "name": "Reev Ranj",
+    "url": "https://github.com/reevr"
+  },
   "license": "ISC",
   "dependencies": {
-    "amqplib": "^0.5.5",
+    "amqplib": "0.5.5",
     "max-listeners-exceeded-warning": "0.0.1",
-    "node-fetch": "^2.6.0",
-    "redis": "^3.0.2",
-    "shortid": "^2.2.15"
+    "node-fetch": "2.6.0",
+    "redis": "3.0.2",
+    "shortid": "2.2.15"
   },
   "devDependencies": {
     "jest": "^25.1.0"
