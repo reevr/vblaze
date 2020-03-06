@@ -29,7 +29,7 @@ It returns with a promise which executes the code in a seperate thread and resol
 
 Note : nanoJob accepts only two parameters , one is the task funtion or task file path and one single parameter. In case of passing multiple parameters , use objects;
 
-```
+```js
 const result = await nanoJob((data) => {
     
     for (let i = 0; i < 1000; i++) {}
@@ -45,7 +45,7 @@ Consumer group reserves workers using tags.
 
 Note : Always two workers in the worker pool are researved with default tags. Can researve only (maxCount - 2 ) workers for consumer groups in total.
 
-```
+```js
 (async () => {
     const workerHouse =  new WorkerHouse(config);
     await workerHouse.init();
@@ -61,7 +61,7 @@ It can be Redis publisher or RabbitMq publisher.
 
 Info : There is saturation point for the maxCount you can pass to the worker pool, set as 50 by default. In case you need to increase the saturation count, set the environment variable MAX_THREADS_SATURATION_POINT with a value higher than 50. This allows developer to set the maximum potential of the system used.
 
-```
+```js
 MAX_THREADS_SATURATION_POINT=100 node main.js
 ```
 
@@ -76,7 +76,8 @@ It is necessary to start the worker pool to use all the available features.
 So we initiate it by passing a parameter for the max number of workers to be allotted in the worker pool.
 
 main.js
-```
+
+```js
 const mblaze = require('mblaze');
 const config = require('./config');
 
@@ -125,7 +126,8 @@ const config = require('./config');
 ```
 
 config.js
-```
+
+```js
 const config = {};
 
 config.consumerGroups = {
@@ -190,7 +192,8 @@ module.exports = config;
 ```
 
 task.js
-```
+
+```js
 const fs = require('fs');
 
 function wait(time) {
