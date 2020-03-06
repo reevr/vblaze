@@ -10,7 +10,7 @@ class BootLoaderValidator {
         
         const consumerGroupsTaskValidator = Joi.object({
             filePath: Joi.any(),
-            task: Joi.string()
+            task: Joi.any()
         }).required().xor('filePath', 'task');
 
         const consumerGroupsOptionsValidator = Joi.object({
@@ -24,16 +24,15 @@ class BootLoaderValidator {
             groups: Joi.array().items(Joi.object({
                 options: consumerGroupsOptionsValidator,
                 count: Joi.number().default(1)
-            }).required().with('options', 'count')).required()
+            }).with('options', 'count'))
         }).with('brokerUrl', 'groups');
 
         const schema = Joi.object({
-            maxCount: Joi.number().required(),
             consumerGroups: Joi.object({
                 rabbitmq: consumerGroupsBrokerValidator,
                 redis: consumerGroupsBrokerValidator
             }).required()
-        }).required().with('maxCount', 'consumerGroups');
+        }).required();
 
         return schema.validate(data);
     }

@@ -4,11 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=production MAX_THREADS_SATURATION_POINT=200 node ./tests/test.js"
+    "test-play": "NODE_ENV=production MAX_THREADS_SATURATION_POINT=200 node ./tests/test.js",
+    "test": "jest --coverage --verbose=true"
   },
   "keywords": [
     "quert"
   ],
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "author": "reev ranj",
   "license": "ISC",
   "dependencies": {

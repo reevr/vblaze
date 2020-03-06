@@ -7,7 +7,6 @@ function wait(time) {
 }
 
 module.exports = async (data) => {
-    // await wait(1000);
     const fileContents = fs.readFileSync(__filename);
     fs.readFileSync(__filename);
     
@@ -23,5 +22,5 @@ module.exports = async (data) => {
     fs.readFileSync(__filename);
     fs.readFileSync(__filename);
     fs.readFileSync(__filename);
-    return fileContents.toString().replace("module.exports", "jsbdsvjhsbdvbsiuvbsuivbiusbviubviusdbviubsdiuvbsdiuvbsidubviusdbvisdbviubsdivubsdiuvbsdiuvbisduvbisdbvisdi");
+    return 'task file ';
 };

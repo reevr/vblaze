@@ -13,14 +13,16 @@ class RedisConsumerGroup extends ConsumerGroup {
 
     }
 
-    static connect(brokerUrl) {
+    static async connect(brokerUrl) {
         
-        RedisConsumerGroup.connection = redis.createClient({ url: brokerUrl });
+        if (!RedisConsumerGroup.connection) {
+            RedisConsumerGroup.connection = redis.createClient({ url: brokerUrl });
 
-        return new Promise((resolve, reject) => {
-            RedisConsumerGroup.connection.once('ready', resolve);
-            RedisConsumerGroup.connection.once('error', reject);
-        });
+            return new Promise((resolve, reject) => {
+                RedisConsumerGroup.connection.once('ready', resolve);
+                RedisConsumerGroup.connection.once('error', reject);
+            });
+        }
     }
 
     async init() {
@@ -31,7 +33,7 @@ class RedisConsumerGroup extends ConsumerGroup {
             throw new Error('Queue name required');
 
         if (!RedisConsumerGroup.connection)
-            throw new Error('AMQP connection required');
+            throw new Error('Redis connection required');
 
         this.queueName = queueName;
         RedisConsumerGroup.connection.subscribe(this.queueName);
@@ -46,20 +48,19 @@ class RedisConsumerGroup extends ConsumerGroup {
 
     __process(channel, message) {
 
-        console.log('message : ', message)
+        if (channel === this.queueName) {
 
-        this.enqueue(message, (err, result, workId) => {
-           
-            console.log('Work Id : ', workId);
+            this.enqueue(message, (err, result, workId) => {
+            
+                if (err) {
+                    console.error('Error : ', err);
+                }
 
-            if (err) {
-                console.error('Error : ', err);
-            }
-
-            if (result) {
-                console.log('Result : ', result);
-            }
-        });
+                if (result) {
+                    console.log('Result : ', result);
+                }
+            });
+        }
     }
 }
 

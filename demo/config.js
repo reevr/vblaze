@@ -1,6 +1,5 @@
 const config = {};
 
-config.maxCount = 8;
 config.consumerGroups = {
     rabbitmq: {
         brokerUrl: 'amqp://user:password@0.0.0.0:5672',
@@ -13,17 +12,19 @@ config.consumerGroups = {
                     },
                     tag: 'test-1-tag'
                 },
-                count: 2
+                count: 5
             },
             {
                 options: {
                     queueName: 'test-queue-2',
                     taskSource: {
-                        filePath: require.resolve('./task.js')
+                        task: (data) => {
+                            return 'test-queue-2-reev'
+                        }
                     },
                     tag: 'test-2-tag'
                 },
-                count: 2
+                count: 5
             },
         ]
     },
@@ -38,7 +39,19 @@ config.consumerGroups = {
                     },
                     tag: 'test-3-tag'
                 },
-                count: 2
+                count: 5
+            },
+            {
+                options: {
+                    queueName: 'test-queue-4',
+                    taskSource: {
+                        task: (data) => {
+                            return 'reev' + Date.now()
+                        }
+                    },
+                    tag: 'test-4-tag'
+                },
+                count: 5
             }
         ]
     }
