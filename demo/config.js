@@ -9,8 +9,7 @@ config.consumerGroups = {
                     queueName: 'test-queue-1',
                     taskSource: {
                         filePath: require.resolve('./task.js')
-                    },
-                    tag: 'test-1-tag'
+                    }
                 },
                 count: 5
             },
@@ -21,8 +20,7 @@ config.consumerGroups = {
                         task: (data) => {
                             return 'test-queue-2-reev'
                         }
-                    },
-                    tag: 'test-2-tag'
+                    }
                 },
                 count: 5
             },
@@ -37,7 +35,7 @@ config.consumerGroups = {
                     taskSource: {
                         filePath: require.resolve('./task.js')
                     },
-                    tag: 'test-3-tag'
+
                 },
                 count: 5
             },
@@ -49,7 +47,7 @@ config.consumerGroups = {
                             return 'reev' + Date.now()
                         }
                     },
-                    tag: 'test-4-tag'
+
                 },
                 count: 5
             }

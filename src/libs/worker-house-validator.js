@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-class BootLoaderValidator {
+class WorkerHouseValidator {
 
     constructor(data) {
         this.data = data;
@@ -15,8 +15,7 @@ class BootLoaderValidator {
 
         const consumerGroupsOptionsValidator = Joi.object({
             queueName: Joi.string().required(),
-            taskSource: consumerGroupsTaskValidator,
-            tag: Joi.string().required()
+            taskSource: consumerGroupsTaskValidator
         }).required();
 
         const consumerGroupsBrokerValidator = Joi.object({
@@ -50,4 +49,4 @@ class BootLoaderValidator {
 
 }
 
-module.exports = BootLoaderValidator;
+module.exports = WorkerHouseValidator;

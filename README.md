@@ -102,7 +102,7 @@ const config = require('./config');
             
             for (let i = 0; i < 1000; i++) {}
             return `${data.name} is ${data.age} years old`;
-        }, { name, age });
+        }, { name: 'jay', age: '25' });
         
         console.log(result);
         
