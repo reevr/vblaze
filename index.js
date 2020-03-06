@@ -1,31 +1,39 @@
-const Broker = require('./libs/brokers');
-const OptionsValidator = require('./libs/options-validator');
-const Helper = require('./helpers/main');
+const WorkerHouse = require('./src/libs/worker-house');
+const getWorkerPool = require('./src/libs/worker-pool');
+const getPublisher = require('./src/libs/publishers');
 
-/**
- * options  => 
- *  brokerUrl: string,
- *  cluster: number
- *  taskRunners: Array [
- *      filePath: string,
- *      customOptions:
- *        durable: string,
- *        persistent: string,
- *        workers: string
- *  ]
- *
- */
-
-module.exports.consumer = async (options) => {
+function nanoJob(WorkerPool, task, data) {
     
-    options = new OptionsValidator(options);
+    taskSource = ((task instanceof Function) === true) ? { task } : { filePath: task };
 
-    if (options.taskRunners.length === 0)
-        throw new Error('No task runners set');
+    return new Promise((resolve, reject) => {
 
-    const consumerGroups = {};
+        WorkerPool.enqueue({
+            data,
+            taskSource,
+            callback: (err, result) => {
+    
+                if (err)
+                    return reject(err);
+    
+                if (result)
+                    resolve(result);
+            }
+        });
+    })
+}
 
-    Helper.setConsumerGroups(consumerGroups, Broker);
+module.exports = async (maxCount) => {
+    
+    if (typeof maxCount !== 'number')
+        throw new Error('Invalid Max worker count');
 
-
+    const workerPool = await getWorkerPool(maxCount);
+    
+    return {
+        WorkerHouse,
+        WorkerPool: workerPool,
+        getPublisher,
+        nanoJob: nanoJob.bind(null, workerPool)
+    }
 }

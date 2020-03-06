@@ -14,10 +14,10 @@ class WorkerHouse {
         
         if (!this.config)
             throw new Error('Config required');
-
-        const WorkerPool = await require('./worker-pool')(this.config.maxCount);
+        
+        const WorkerPool = await require('./worker-pool')();
         const consumerGroups = await this.__getConsumerGroups(WorkerPool);
-    
+        
         return Promise.all(consumerGroups.map(consumerGroup => consumerGroup.init()))
     }
 

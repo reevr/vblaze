@@ -51,10 +51,8 @@ class RabbitmqConsumerGroup extends ConsumerGroup {
     __process(data) {
 
         const message = JSON.parse(data.content.toString());
-        console.log(message)
 
         const currentWorkId = this.enqueue(message, (err, result, workId) => {
-            console.log('Work ID : ', workId);
 
             if (err) {
                 console.error('Error : ', err);

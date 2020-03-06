@@ -46,10 +46,7 @@ function processData(workId, data, { task, filePath }) {
 
 
 parentPort.on('message', ({ workId, data, taskSource = {} }) => {
-        // if (workId % 20 === 0) {
-        //     throw new Error('test off');
-        // }
-    
+        
         processData(workId, data, taskSource)
             .then(result => parentPort.postMessage({ workId, result, event: 'work_done' }))
             .catch(err => parentPort.postMessage({ workId, event: 'work_error', err }));

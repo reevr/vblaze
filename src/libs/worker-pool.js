@@ -122,9 +122,17 @@ class WorkerPool {
 let workerPool;
 
 module.exports = async (maxCount) => {
+
     if (!workerPool) {
+
+        if (typeof maxCount !== 'number')
+            throw new Error('Invalid Max worker count');
+
         workerPool = new WorkerPool(maxCount);
         await workerPool.start();
+
+    } else if (!!maxCount) {
+        console.log(`Warning : Worker Pool was already initiated with ${workerPool.workers.length} workers`)
     }
 
     return workerPool;
