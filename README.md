@@ -52,9 +52,11 @@ Note : Always two workers in the worker pool are researved with default tags. Ca
 })()
 ```
 
+
 ###### Publisher 
 Allows to publish job to a certain message queue.
 It can be Redis publisher or RabbitMq publisher.
+
 ----------------------------------------------------------------------------------------
 
 Info : There is saturation point for the maxCount you can pass to the worker pool, set as 50 by default. In case you need to increase the saturation count, set the environment variable MAX_THREADS_SATURATION_POINT with a value higher than 50. This allows developer to set the maximum potential of the system used.
