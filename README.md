@@ -3,7 +3,7 @@
 This is an in process worker house for doing asynchronous tasks in nodeJs.
 Workers can receive task from various brokers like RabbitMq, Redis or a in process queue.
 
-![architecture daigram](https://i.ibb.co/zSjB5Bs/mblaze-architecture.jpg)
+![architecture daigram](https://raw.githubusercontent.com/reevr/mblaze/master/mblaze-architecture.jpg)
 
 This is a complete worker threads utility library for nodeJs.
 ###### There are following features : 
