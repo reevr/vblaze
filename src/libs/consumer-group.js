@@ -10,7 +10,7 @@ class ConsumerGroup {
 
         validator.validate((result) => {
             this.taskSource = result.options.taskSource;
-            this.tag = result.options.tag;
+            this.tag = `${Date.now()}-${result.options.queueName}`;
             this.WorkerPool = WorkerPool;
             process.nextTick(() => this.__reserveWorker(count));
         });

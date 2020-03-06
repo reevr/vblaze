@@ -15,7 +15,6 @@ class ConsumerGroupValidator {
                     filePath: Joi.string(),
                     task: Joi.any()
                 }).default({ task: (data) => data }),
-                tag: Joi.string().required()
             }).required().with('brokerUrl', 'queueName'),
             count: Joi.number().default(1),
             WorkerPool: Joi.any().required()
