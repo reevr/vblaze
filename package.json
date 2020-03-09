@@ -1,5 +1,5 @@
 {
-  "name": "mblaze",
+  "name": "vblaze",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,15 +7,15 @@
     "test-play": "NODE_ENV=production MAX_THREADS_SATURATION_POINT=200 node ./tests/test.js"
   },
   "bugs": {
-    "url": "https://github.com/reevr/mblaze/issues"
+    "url": "https://github.com/reevr/vblaze/issues"
   },
-  "homepage": "https://github.com/reevr/mblaze",
+  "homepage": "https://github.com/reevr/vblaze",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reevr/mblaze.git"
+    "url": "git+https://github.com/reevr/vblaze.git"
   },
   "keywords": [
-    "mblaze","queue", "task-queue", "celery", "worker-threads", "threads", "worker-house"
+    "vblaze","queue", "task-queue", "celery", "worker-threads", "threads", "worker-house"
   ],
   "jest": {
     "testEnvironment": "node",

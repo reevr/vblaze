@@ -1,9 +1,9 @@
-# MBLAZE
+# vblaze
 
 This is an in process worker house for doing asynchronous tasks in nodeJs.
 Workers can receive task from various brokers like RabbitMq, Redis or a in process queue.
 
-![architecture daigram](https://raw.githubusercontent.com/reevr/mblaze/master/mblaze-architecture.jpg)
+![architecture daigram](https://raw.githubusercontent.com/reevr/vblaze/master/vblaze-architecture.jpg)
 
 This is a complete worker threads utility library for nodeJs.
 ###### There are following features : 
@@ -18,8 +18,8 @@ It consists of a enqueue method to push in a job and any of the workers will pic
 Consists of auto respawning feature , if any worker thread dies , it automatically respawns and if the dead worker was processing a job ,then it will be re-executed with the new worker keeping it reliable.
 Worker pool maintains tag for each worker used in reserving workers. By default every worker is set with 'default' tag.
 
-Note : If the NODE_ENV environment variable is not set to 'production' or any other environment other than 'development', then mblaze considers environment to be 'development'.
-And in 'development' environment , mblaze allows to create only as many workers as the cpu(s) available.
+Note : If the NODE_ENV environment variable is not set to 'production' or any other environment other than 'development', then vblaze considers environment to be 'development'.
+And in 'development' environment , vblaze allows to create only as many workers as the cpu(s) available.
 
 ###### Nanojob
 A co-routine for nodeJs.
@@ -78,13 +78,13 @@ So we initiate it by passing a parameter for the max number of workers to be all
 main.js
 
 ```js
-const mblaze = require('mblaze');
+const vblaze = require('vblaze');
 const config = require('./config');
 
 (async () => {
     
     try {
-        const { WorkerHouse, WorkerPool, getPublisher, nanoJob } = await mblaze(10);
+        const { WorkerHouse, WorkerPool, getPublisher, nanoJob } = await vblaze(10);
         
         /** Start a worker house by passing the config object to WorkerHouse constructor */
         const workerHouse =  new WorkerHouse(config);

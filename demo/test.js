@@ -1,10 +1,10 @@
-const mblaze = require('../index');
+const vblaze = require('../index');
 const config = require('./config');
 
 (async () => {
     
     try {
-        const { WorkerHouse, WorkerPool, getPublisher, nanoJob } = await mblaze(30);
+        const { WorkerHouse, WorkerPool, getPublisher, nanoJob } = await vblaze(30);
         
         /** Start a worker house by passing the config object to WorkerHouse constructor */
         const workerHouse =  new WorkerHouse(config);
