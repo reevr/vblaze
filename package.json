@@ -15,7 +15,13 @@
     "url": "git+https://github.com/reevr/vblaze.git"
   },
   "keywords": [
-    "vblaze","queue", "task-queue", "celery", "worker-threads", "threads", "worker-house"
+    "vblaze",
+    "queue",
+    "task-queue",
+    "celery",
+    "worker-threads",
+    "threads",
+    "worker-house"
   ],
   "jest": {
     "testEnvironment": "node",
@@ -30,6 +36,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "17.1.0",
     "amqplib": "0.5.5",
     "max-listeners-exceeded-warning": "0.0.1",
     "node-fetch": "2.6.0",

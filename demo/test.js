@@ -1,4 +1,4 @@
-const vblaze = require('../index');
+const vblaze = require('vblaze');
 const config = require('./config');
 
 (async () => {
