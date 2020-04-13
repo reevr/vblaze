@@ -15,8 +15,7 @@ function nanoJob(WorkerPool, task, data) {
     
                 if (err)
                     return reject(err);
-    
-                if (result)
+
                     resolve(result);
             }
         });
