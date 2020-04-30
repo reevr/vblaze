@@ -25,52 +25,52 @@ Worker pool maintains tag for each worker used in reserving workers. By default 
 
 ```js
 (async () => {
-            const { WorkerPool } = await vblaze(25); // 25 worker-threads will be created.
-            
-            /**
-                Below,  we reserve workers in the workerpool using specific tag. 
-                We use this to allot , number of workers for a specific type of task.
-                eg: In the `tagWorkers` function :
-                * 'sum', 'multiplcation' and 'data-encode' are the tags passed as first parameter. 
-                * 3, 5 and 4 are passed as the cumber of workers to be alloted to each tag respectively.
-                
-                note: In this case our worker pool has 25 workers, but you can only reserve 23 out 25 workers for any number of tags. 2 of 25 will always be reserved with 'default' tag. This is to be used by the 'nanoJob'.
-            **/    
-            
-            WorkerPool.tagWorkers('sum', 3);
-            WorkerPool.tagWorkers('multiplcation', 5);
-            WorkerPool.tagWorkers('data-encode', 4);
+    const { WorkerPool } = await vblaze(25); // 25 worker-threads will be created.
+    
+    /**
+        Below,  we reserve workers in the workerpool using specific tag. 
+        We use this to allot , number of workers for a specific type of task.
+        eg: In the `tagWorkers` function :
+        * 'sum', 'multiplcation' and 'data-encode' are the tags passed as first parameter. 
+        * 3, 5 and 4 are passed as the cumber of workers to be alloted to each tag respectively.
         
-            /**
-                Lets pass in soe work to the workers for each tag.
-            **/
+        note: In this case our worker pool has 25 workers, but you can only reserve 23 out 25 workers for any number of tags. 2 of 25 will always be reserved with 'default' tag. This is to be used by the 'nanoJob'.
+    **/    
+    
+    WorkerPool.tagWorkers('sum', 3);
+    WorkerPool.tagWorkers('multiplcation', 5);
+    WorkerPool.tagWorkers('data-encode', 4);
+
+    /**
+        Lets pass in soe work to the workers for each tag.
+    **/
+    
+    const sumFunc = ({ a, b }) => {
+        return a + b;
+    }
+    
+    const multiplcationFunc = ({ a, b }) => {
+        return a * b;
+    }
+    
+    const dataEncodeTaskFilePath = require.resolve('./data-encode-task.js');
+    
+    const callback = (err, result, workerId) => {
+    // This callback is callled when the worker completes the task 
+    
+        if (err) 
+            return console.log(err);
             
-            const sumFunc = ({ a, b }) => {
-                return a + b;
-            }
-            
-            const multiplcationFunc = ({ a, b }) => {
-                return a * b;
-            }
-            
-            const dataEncodeTaskFilePath = require.resolve('./data-encode-task.js');
-            
-            const callback = (err, result, workerId) => {
-            // This callback is callled when the worker completes the task 
-            
-                if (err) 
-                    return console.log(err);
-                    
-                console.log(result, workId);
-            }
-            
-            WorkerPool.enqueue({ workId: Date.now(), { a: 10, b: 5 }, callback, taskSource: { task: sumFunc }, 'sum');
-            
-            WorkerPool.enqueue({ workId: 'some-random-id', { a: 10, b: 5 }, callback, taskSource: { task: multiplcationFunc }, 'multiplcation');
-            
-            WorkerPool.enqueue({  "Some data to be encoded", callback, taskSource: { filePath: dataEncodeTaskFilePath }, 'data-encode');
-            
-            // workId is optional. If you do not pass a workId, it will automatically generate a workId.
+        console.log(result, workId);
+    }
+    
+    WorkerPool.enqueue({ workId: Date.now(), { a: 10, b: 5 }, callback, taskSource: { task: sumFunc }, 'sum');
+    
+    WorkerPool.enqueue({ workId: 'some-random-id', { a: 10, b: 5 }, callback, taskSource: { task: multiplcationFunc }, 'multiplcation');
+    
+    WorkerPool.enqueue({  "Some data to be encoded", callback, taskSource: { filePath: dataEncodeTaskFilePath }, 'data-encode');
+    
+    // workId is optional. If you do not pass a workId, it will automatically generate a workId.
             
 })()
 ```
