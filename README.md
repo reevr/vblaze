@@ -64,11 +64,11 @@ Worker pool maintains tag for each worker used in reserving workers. By default 
         console.log(result, workId);
     }
     
-    WorkerPool.enqueue({ workId: Date.now(), { a: 10, b: 5 }, callback, taskSource: { task: sumFunc }, 'sum');
+    WorkerPool.enqueue({ workId: Date.now(), data: { a: 10, b: 5 }, callback, taskSource: { task: sumFunc }, 'sum');
     
-    WorkerPool.enqueue({ workId: 'some-random-id', { a: 10, b: 5 }, callback, taskSource: { task: multiplcationFunc }, 'multiplcation');
+    WorkerPool.enqueue({ workId: 'some-random-id', data: { a: 10, b: 5 }, callback, taskSource: { task: multiplcationFunc }, 'multiplcation');
     
-    WorkerPool.enqueue({  "Some data to be encoded", callback, taskSource: { filePath: dataEncodeTaskFilePath }, 'data-encode');
+    WorkerPool.enqueue({  data: "Some data to be encoded", callback, taskSource: { filePath:dataEncodeTaskFilePath }, 'data-encode');
     
     // workId is optional. If you do not pass a workId, it will automatically generate a workId.
             
@@ -88,11 +88,16 @@ Note : nanoJob accepts only two parameters , one is the task funtion or task fil
 
 Passing a function:
 ```js
+
+const data = { name, age };
+
 const result = await nanoJob((data) => {
     
     for (let i = 0; i < 1000; i++) {}
     return `${data.name} is ${data.age} years old`;
-}, { name, age });
+
+}, data);
+
 ```
 
 or 
@@ -105,9 +110,17 @@ const result = await nanoJob(path.resolve('./taskFile.js'), { name, age });
 
 ```js
 // taskFile.js
+
 module.exports = (data) => {
-    for (let i = 0; i < 1000; i++) {}
+
+    for (let i = 0; i < 1000; i++) {
+
+        console.log('Executing : ', i);
+
+    }
+    
     return `${data.name} is ${data.age} years old`;
+
 }
 ```
 
@@ -124,58 +137,90 @@ Note : Always two workers in the worker pool are researved with default tags. Ca
 
 ```js
 // config.js
+
 const config = {};
 
 config.consumerGroups = {
+
     rabbitmq: {
+
         brokerUrl: 'amqp://user:password@0.0.0.0:5672',
         groups: [
             {
+
                 options: {
+
                     queueName: 'test-queue-1',
                     taskSource: {
+
                         filePath: require.resolve('./task.js')
+
                     },
                     tag: 'test-1-tag'
+
                 },
                 count: 5
+
             },
             {
+                
                 options: {
+
                     queueName: 'test-queue-2',
                     taskSource: {
+                    
                         task: (data) => {
+                        
                             return 'test-queue-2-reev'
+                        
                         }
+                    
                     },
                     tag: 'test-2-tag'
+                
                 },
                 count: 5
+            
             },
         ]
     },
     redis: {
+
         brokerUrl: 'redis://0.0.0.0:6379',
         groups: [
             {
+        
                 options: {
+                
                     queueName: 'test-queue-3',
                     taskSource: {
+                    
                         filePath: require.resolve('./task.js')
+                    
                     }
+                
                 },
                 count: 5
+            
             },
             {
+                
                 options: {
+                
                     queueName: 'test-queue-4',
                     taskSource: {
+                        
                         task: (data) => {
+                        
                             return 'reev' + Date.now()
+                        
                         }
+                    
                     }
+                
                 },
                 count: 5
+            
             }
         ]
     }
@@ -194,10 +239,13 @@ module.exports = async (data) => {
 ```
 
 ```js
+
 (async () => {
+
     const config = require('./config');
     const workerHouse =  new WorkerHouse(config);
     await workerHouse.init();
+
 })()
 ```
 
@@ -233,6 +281,7 @@ const config = require('./config');
 (async () => {
     
     try {
+
         const { WorkerHouse, WorkerPool, getPublisher, nanoJob } = await vblaze(25);
         
         /** Start a worker house by passing the config object to WorkerHouse constructor */
@@ -249,28 +298,43 @@ const config = require('./config');
         /** Execute tasks in seperate thread using nanoJob */
         const result = await nanoJob((data) => {
             
-            for (let i = 0; i < 1000; i++) {}
+            for (let i = 0; i < 1000; i++) {
+
+                console.log('Executing : ', i);
+
+            }
+            
             return `${data.name} is ${data.age} years old`;
+
         }, { name: 'jay', age: '25' });
         
         console.log(result);
         
         /** Initialise Publishers */
         const redis1 = await getPublisher('redis', config.consumerGroups.redis.groups[0].options.queueName, config.consumerGroups.redis.brokerUrl);
+
         const redis2 = await getPublisher('redis', config.consumerGroups.redis.groups[1].options.queueName, config.consumerGroups.redis.brokerUrl);
+
         const rabbitmq1 = await getPublisher('rabbitmq', config.consumerGroups.rabbitmq.groups[0].options.queueName, config.consumerGroups.rabbitmq.brokerUrl);
+        
         const rabbitmq2 = await getPublisher('rabbitmq', config.consumerGroups.rabbitmq.groups[1].options.queueName, config.consumerGroups.rabbitmq.brokerUrl);
         
         /** Publish jobs to queues initialised above */
         for (let i = 0; i< 1000; i++) {
+        
             redis1.pushToQueue( 'redis 1')
             redis2.pushToQueue( 'redis 2')
             rabbitmq1.pushToQueue( 'rabbitmq 1')
             rabbitmq2.pushToQueue( 'rabbitmq 2')
+        
         }
+    
     } catch(err) {
+
         console.log(err);
+
     }
+
 })()
 ```
 
@@ -280,58 +344,88 @@ config.js
 const config = {};
 
 config.consumerGroups = {
+    
     rabbitmq: {
+    
         brokerUrl: 'amqp://user:password@0.0.0.0:5672',
         groups: [
             {
+                
                 options: {
+                    
                     queueName: 'test-queue-1',
                     taskSource: {
+                        
                         filePath: require.resolve('./task.js')
+                    
                     },
                     tag: 'test-1-tag'
+                
                 },
                 count: 5
+            
             },
             {
+                
                 options: {
                     queueName: 'test-queue-2',
                     taskSource: {
+                    
                         task: (data) => {
-                            return 'test-queue-2-reev'
+                           
+                           return 'test-queue-2-reev'
+                        
                         }
+                    
                     },
                     tag: 'test-2-tag'
+                
                 },
                 count: 5
+            
             },
         ]
     },
     redis: {
+        
         brokerUrl: 'redis://0.0.0.0:6379',
         groups: [
             {
+        
                 options: {
+                
                     queueName: 'test-queue-3',
                     taskSource: {
+                    
                         filePath: require.resolve('./task.js')
+                    
                     }
+                
                 },
                 count: 5
+            
             },
             {
                 options: {
+                    
                     queueName: 'test-queue-4',
                     taskSource: {
+                    
                         task: (data) => {
+                        
                             return 'reev' + Date.now()
+                        
                         }
+                    
                     }
+
                 },
                 count: 5
+            
             }
         ]
     }
+
 };
 
 
@@ -344,12 +438,17 @@ task.js
 const fs = require('fs');
 
 function wait(time) {
+
     return new Promise((resolve, reject) => {
+    
         setTimeout(() => resolve(), time)
+    
     });
+
 }
 
 module.exports = async (data) => {
+    
     await wait(100);
     const fileContents = fs.readFileSync(__filename);
     fs.readFileSync(__filename);
@@ -359,6 +458,7 @@ module.exports = async (data) => {
     fs.readFileSync(__filename);
     
     return 'task file output ';
+
 };
 ```
 

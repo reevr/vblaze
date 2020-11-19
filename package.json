@@ -15,6 +15,14 @@
     "url": "git+https://github.com/reevr/vblaze.git"
   },
   "keywords": [
+    "thread",
+    "worker",
+    "pool",
+    "spawn",
+    "isomorphic",
+    "parallel",
+    "observable",
+    "worker_threads",
     "vblaze",
     "queue",
     "task-queue",
