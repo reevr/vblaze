@@ -47,7 +47,7 @@
     "@hapi/joi": "17.1.0",
     "amqplib": "0.5.5",
     "max-listeners-exceeded-warning": "0.0.1",
-    "node-fetch": "2.6.0",
+    "node-fetch": "3.1.1",
     "redis": "3.0.2",
     "shortid": "2.2.15"
   },
